@@ -24,54 +24,53 @@ for i=1:numel(obj.nodes)
     
     p=obj.nodes(i).p;
     if ~isempty(p)
-    pr_N = sprintf('%s\nX\t\t%3u\t\t\t%6f\t%6f\t%6f\t\t#node %u',pr_N,obj.nodes(i).spanodes(1),p(1),p(2),p(3),obj.nodes(i).n);
+        pr_N = sprintf('%s\nX\t\t%3u\t\t\t%6f\t%6f\t%6f\t\t#node %u',pr_N,obj.nodes(i).n,p(1),p(2),p(3),obj.nodes(i).n);
     end
-    for j=1:numel(obj.nodes(i).sn) % for number of subnodes
-        snn=obj.nodes(i).sn(j).n; %spacar node number
-        type=obj.nodes(i).sn(j).type; % spacar node type
-        % print nodal fixes
-        if ~isempty(obj.nodes(i).sn(j).fix)
-            fixes= sprintf('%3u \t',obj.nodes(i).sn(j).fix);
-            pr_FIX=sprintf('%s\n FIX \t %3u %s',pr_FIX, snn,fixes);
-        end
-        % print input displacements
-        dval_init=obj.nodes(i).sn(j).inputx; % get initial displacement values
-        dval=obj.nodes(i).sn(j).delinpx;% get displacement values
-        inputdirval=[find(dval_init),find(dval)];
-        if ~isempty(inputdirval)
-            inputdirs=sprintf('%3u \t',unique(inputdirval)); % print unique values
-            pr_INPUT=sprintf('%s \n INPUTX %3u %s',pr_INPUT,snn,inputdirs);
-        end
-        if ~isempty(dval_init)
-            id_ini=true;
-            for k=find(dval_init)
-                pr_INPUTVAL=sprintf('%s \n INPUTX %3u \t %3u \t %6f \t #%s', pr_INPUTVAL,snn,k, obj.nodes(i).sn(j).inputx(k),type);
-            end
-        end
-        if ~isempty(dval)
-            id_add=true;
-            for k=find(dval)
-                pr_DELINPUTVAL=sprintf('%s \n DELINPX %3u \t %3u \t %6f \t #%s', pr_DELINPUTVAL,snn,k, obj.nodes(i).sn(j).delinpx(k),type);
-            end
-        end
-        % print input forces and moments
-        
-        if ~isempty(obj.nodes(i).sn(j).xf)
-            fm_init=sprintf('%6f \t',obj.nodes(i).sn(j).xf); % get initial force/moment values
-            id_ini=true;
-            pr_XF=sprintf('%s \n XF %3u \t %s \t #%s', pr_XF,snn, fm_init,type);
-        end
-        if ~isempty(obj.nodes(i).sn(j).delxf)
-            fm=sprintf('%6f \t',obj.nodes(i).sn(j).delxf);% get force/moment values
-            id_add=true;
-            pr_DELXF=sprintf('%s \n DELXF %3u \t  %s \t #%s', pr_DELXF,snn, fm,type);
-        end
-        % print nodal masses
-        if ~isempty(obj.nodes(i).sn(j).xm)
-            xm=sprintf('%6f \t',obj.nodes(i).sn(j).xm);
-            pr_XM=sprintf('%s \n XM %3u \t %s \t #%s',pr_XM,snn,xm,type);
+    nn=obj.nodes(i).n; %spacar node number
+    type=obj.nodes(i).type; % spacar node type
+    % print nodal fixes
+    if ~isempty(obj.nodes(i).fix)
+        fixes= sprintf('%3u \t',obj.nodes(i).fix);
+        pr_FIX=sprintf('%s\n FIX \t %3u %s',pr_FIX, nn,fixes);
+    end
+    % print input displacements
+    dval_init=obj.nodes(i).inputx; % get initial displacement values
+    dval=obj.nodes(i).delinpx;% get displacement values
+    inputdirval=[find(dval_init),find(dval)];
+    if ~isempty(inputdirval)
+        inputdirs=sprintf('%3u \t',unique(inputdirval)); % print unique values
+        pr_INPUT=sprintf('%s \n INPUTX %3u %s',pr_INPUT,nn,inputdirs);
+    end
+    if ~isempty(dval_init)
+        id_ini=true;
+        for k=find(dval_init)
+            pr_INPUTVAL=sprintf('%s \n INPUTX %3u \t %3u \t %6f \t #%s', pr_INPUTVAL,nn,k, obj.nodes(i).inputx(k),type);
         end
     end
+    if ~isempty(dval)
+        id_add=true;
+        for k=find(dval)
+            pr_DELINPUTVAL=sprintf('%s \n DELINPX %3u \t %3u \t %6f \t #%s', pr_DELINPUTVAL,nn,k, obj.nodes(i).delinpx(k),type);
+        end
+    end
+    % print input forces and moments
+    
+    if ~isempty(obj.nodes(i).xf)
+        fm_init=sprintf('%6f \t',obj.nodes(i).xf); % get initial force/moment values
+        id_ini=true;
+        pr_XF=sprintf('%s \n XF %3u \t %s \t #%s', pr_XF,nn, fm_init,type);
+    end
+    if ~isempty(obj.nodes(i).delxf)
+        fm=sprintf('%6f \t',obj.nodes(i).delxf);% get force/moment values
+        id_add=true;
+        pr_DELXF=sprintf('%s \n DELXF %3u \t  %s \t #%s', pr_DELXF,nn, fm,type);
+    end
+    % print nodal masses
+    if ~isempty(obj.nodes(i).xm)
+        xm=sprintf('%6f \t',obj.nodes(i).xm);
+        pr_XM=sprintf('%s \n XM %3u \t %s \t #%s',pr_XM,nn,xm,type);
+    end
+    
 end
 % print element data
 pr_E=sprintf('#ELEMENTS');
@@ -87,13 +86,13 @@ for i=1:numel(obj.elements)
     pr_E = sprintf('%s\n%s\t %3u \t %s %s #element %u',pr_E, obj.elements(i).etype,obj.elements(i).n,prnodes,prorien,obj.elements(i).n);
     % print estiff lines
     if ~isempty(obj.elements(i).ESTIFF)
-    prestiff=sprintf('%20.15f \t',obj.elements(i).ESTIFF);
-    pr_ESTIFF = sprintf('%s\n ESTIFF \t %3u \t %s',pr_ESTIFF,obj.elements(i).n,prestiff);
+        prestiff=sprintf('%20.15f \t',obj.elements(i).ESTIFF);
+        pr_ESTIFF = sprintf('%s\n ESTIFF \t %3u \t %s',pr_ESTIFF,obj.elements(i).n,prestiff);
     end
     % print em lines
     if ~isempty(obj.elements(i).EM)
-    prem=sprintf('%20.15f \t',obj.elements(i).EM);
-    pr_EM = sprintf('%s\n EM \t %3u \t %s',pr_EM,obj.elements(i).n,prem);
+        prem=sprintf('%20.15f \t',obj.elements(i).EM);
+        pr_EM = sprintf('%s\n EM \t %3u \t %s',pr_EM,obj.elements(i).n,prem);
     end
     % print dof lines
     if ~isempty(obj.elements(i).dyne)
@@ -110,14 +109,14 @@ for i=1:numel(obj.elements)
     %     end
     % visualization
     if ~isempty(obj.elements(i).sect)
-    pr_VIS=sprintf('%s \n BEAMPROPS \t %3u',pr_VIS,obj.elements(i).n);
-    pr_VIS=sprintf('%s \n CROSSTYPE \t %s',pr_VIS,upper(obj.elements(i).sect.shape));
-    dim=sprintf('%6f \t',obj.elements(i).sect.dim);
-    pr_VIS=sprintf('%s \n CROSSDIM \t %s',pr_VIS,dim);
-    pr_VIS=sprintf('%s \n GRAPHICS \t %3u',pr_VIS,obj.elements(i).n);
-    color=sprintf('%6f \t',obj.elements(i).color);
-    pr_VIS=sprintf('%s \n FACECOLOR \t %s',pr_VIS,color);
-    pr_VIS=sprintf('%s \n OPACITY \t %.2f',pr_VIS,obj.elements(i).opacity);
+        pr_VIS=sprintf('%s \n BEAMPROPS \t %3u',pr_VIS,obj.elements(i).n);
+        pr_VIS=sprintf('%s \n CROSSTYPE \t %s',pr_VIS,upper(obj.elements(i).sect.shape));
+        dim=sprintf('%6f \t',obj.elements(i).sect.dim);
+        pr_VIS=sprintf('%s \n CROSSDIM \t %s',pr_VIS,dim);
+        pr_VIS=sprintf('%s \n GRAPHICS \t %3u',pr_VIS,obj.elements(i).n);
+        color=sprintf('%6f \t',obj.elements(i).color);
+        pr_VIS=sprintf('%s \n FACECOLOR \t %s',pr_VIS,color);
+        pr_VIS=sprintf('%s \n OPACITY \t %.2f',pr_VIS,obj.elements(i).opacity);
     end
     
 end
@@ -154,7 +153,7 @@ fprintf(fileID,formatSpec,pr_INPUT);% print input displacement directions
 fprintf(fileID,'\n END \n HALT \n \n');
 fprintf(fileID,formatSpec,pr_ESTIFF);   % print stiffness data
 fprintf(fileID,formatSpec,pr_EM);       % print mass data
-fprintf(fileID,formatSpec,pr_ESIG);  
+fprintf(fileID,formatSpec,pr_ESIG);
 fprintf(fileID,formatSpec,pr_XF);       % print force/moment magnitude
 fprintf(fileID,formatSpec,pr_DELXF);
 fprintf(fileID,formatSpec,pr_INPUTVAL); % print input displacement/rotation magintude

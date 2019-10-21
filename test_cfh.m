@@ -15,19 +15,19 @@ p = [   0 0 0;      %node 1
     0.1 0 0];   %node 4
 % n1=data.addnode(p(1,:));
 
-n=data.addnode(p);
+kp=data.addkp(p);
 
 % e1=data.addelem([n1, n2],'BEAMW',sec1,steel)
-flexelems=data.addelem([n(1), n(3);n(2) n(4)],beam,flex,steel);
-e2=data.addelem([n(2), n(3)],rbeam,rigid,mat2);
+flexelems=data.addelem([kp(1), kp(3);kp(2) kp(4)],beam,flex,steel);
+e2=data.addelem([kp(2), kp(3)],rbeam,rigid,mat2);
 % e3=data.addelem([n(2), n(4)],beam,flex,steel);
 
-fix(n(1));
-fix(n(4));
+fix(kp(1));
+fix(kp(4));
 
 % moment_initial(n(3),[0 0 -0.025]);
 % moment(n(3),[0 0 0.05]);
-mass(n(3),0.1);
+mass(kp(3),0.1);
 
 
 % bb=data.addbb([n2 n4],'strip',ep1,sec1,steel)
@@ -39,9 +39,9 @@ data.filename='testfile';
 
 %%
 % run in mode 10
-rot(n(3),[0 0 0.5])
+rot(kp(3),[0 0 0.5])
 data.runmode(10,true)
-c3=n(3).CMglob(:,:,10)
+c3=kp(3).CMglob(:,:,10)
 f1=data.freq;
 
 % data.filename='testfile_3';
@@ -50,13 +50,13 @@ t=10
 
 % data.runmode(3,false)
 perturb(data)
-c3_1=n(3).CMglob(:,:,t)
-c3_1a=n(3).CMglob_new(:,:,t)
+c3_1=kp(3).CMglob(:,:,t)
+c3_1a=kp(3).CMglob_new(:,:,t)
 f_1=data.freq
 % spavisual(data.filename)
 
-c3=n(3).CMglob(:,:,t)
-c3a=n(3).CMglob_p(:,:,t)
+c3=kp(3).CMglob(:,:,t)
+c3a=kp(3).CMglob_p(:,:,t)
 
 % % delete inputx, 
 % rot(n(3),[])

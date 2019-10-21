@@ -8,8 +8,8 @@ classdef spadata < handle %& matlab.mixin.Copyable
         filename='default'
     end
     properties (SetAccess=private)
-        nodes=spanode.empty
-        kp=keypoint.empty
+        nodes=node.empty
+        keypoints=keypoint.empty
         elements=element.empty
         buildingblocks=buildingblock.empty
         smax                                % max stress results
@@ -33,23 +33,14 @@ classdef spadata < handle %& matlab.mixin.Copyable
         autosolve(obj)
         [CMglob, CMloc]=complt(obj,node)
         
-        function out = addnode(obj,p)
+        function out = addnode(obj,type)
             %METHOD1 create node
-            if isempty(p)
                 n=numel(obj.nodes); %get number of existing nodes
-                out = node([],n+1);
-                out.raw=obj.raw;
-                out.parent=obj;
-                obj.nodes(n+1)=out
-            else
-                for i=1:size(p,1) % for number of rows
-                    n=numel(obj.nodes); %get number of existing nodes
-                    out(i) = node(p(i,:),n+1);
-                    out(i).raw=obj.raw;
-                    out(i).parent=obj;
-                    obj.nodes(n+1)=out(i);
-                end
-            end
+                out = node(n+1,type);
+%                 out.type=type;
+%                 out.raw=obj.raw;
+%                 out.parent=obj;
+                obj.nodes(n+1)=out;
         end
         
         function out = addelem(obj,nodes,eprops,sect,mat)
@@ -59,7 +50,16 @@ classdef spadata < handle %& matlab.mixin.Copyable
                 obj.elements(n+1)=out(i);
             end
         end
-        
+        function out= addkp(obj,p)
+            
+            for i=1:size(p,1) % for number of rows
+                n=numel(obj.keypoints); %get number of existing nodes
+                out(i) = keypoint(obj,p(i,:),n+1);
+                out(i).raw=obj.raw;
+                out(i).parent=obj;
+                obj.keypoints(n+1)=out(i);
+            end
+        end
         function out = addbb(obj,nodes,bbtype,eprops,sect,mat)
             n=numel(obj.buildingblocks); % get number of existing elements
             out = buildingblock(obj,nodes,bbtype,eprops,sect,mat);

@@ -7,24 +7,23 @@ OUTLEVEL 0 1
 
 #NODES	 Nn			X			Y			Z
 X		  1			0.000000	0.000000	0.000000		#node 1
-X		  4			0.000000	0.100000	0.000000		#node 2
-X		  7			0.100000	0.100000	0.000000		#node 3
-X		 10			0.100000	0.000000	0.000000		#node 4
+X		  4			0.000000	0.100000	0.000000		#node 4
+X		  7			0.100000	0.100000	0.000000		#node 7
+X		 10			0.100000	0.000000	0.000000		#node 10
 
 
 
 #ELEMENTS
-BEAM	   1 	   1 	  2 	  4 	  5 	 0.000000 	0.000000 	1.000000 	 #element 1
-BEAM	   2 	   7 	  8 	 10 	 11 	 0.000000 	0.000000 	1.000000 	 #element 2
+BEAM	   1 	   1 	  2 	  7 	  8 	 0.000000 	0.000000 	1.000000 	 #element 1
+BEAM	   2 	   4 	  5 	 10 	 11 	 0.000000 	0.000000 	1.000000 	 #element 2
 BEAM	   3 	   4 	  5 	  7 	  8 	 0.000000 	0.000000 	1.000000 	 #element 3
 
 
 
 #DEF 
- DYNE   1 	   4 	  6 	 
- RLSE   1 	   1 	  2 	  3 	  5 	 
- DYNE   2 	   1 	  5 	  6 	 
- RLSE   2 	   2 	  3 	  4 	
+ RLSE   1 	   1 	  2 	  3 	  4 	  5 	  6 	 
+ DYNE   2 	   1 	  2 	  3 	  5 	  6 	 
+ RLSE   2 	   4 	
 
 
 
@@ -37,7 +36,7 @@ BEAM	   3 	   4 	  5 	  7 	  8 	 0.000000 	0.000000 	1.000000 	 #element 3
 
 
 #INPUT displacement directions 
- INPUTX   7   1 	
+ INPUTX   8   4 	
 
 
 
@@ -76,7 +75,7 @@ BEAM	   3 	   4 	  5 	  7 	  8 	 0.000000 	0.000000 	1.000000 	 #element 3
 
 
 #INPUT displacement magnitudes 
- DELINPX   7 	   1 	 0.010000 	 #trans
+ DELINPX   8 	   4 	 0.247404 	 #rot
 
 
 

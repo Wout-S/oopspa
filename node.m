@@ -11,6 +11,7 @@ classdef node < handle
         n
         type
         xm
+        p
     end
     
     methods

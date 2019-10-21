@@ -6,7 +6,7 @@ classdef keypoint < handle %& matlab.mixin.Copyable
         n                   % node number
         p                   % position
         spanodes            % numbers[translational, rotational, warping]
-        sn=spanode.empty    %subnodes
+        sn=node.empty    %subnodes
         raw
     end
     properties (Hidden)
@@ -28,7 +28,7 @@ classdef keypoint < handle %& matlab.mixin.Copyable
     end
     
     methods (Access = ?spadata)
-        function obj = keypoint(p,n)
+        function obj = keypoint(data,p,n)
             %NODE Construct an instance of this class
             %   create node based on position
             obj.p = p;
@@ -37,9 +37,13 @@ classdef keypoint < handle %& matlab.mixin.Copyable
             rnn=(n-1)*3+2;
             wnn=(n-1)*3+3;
             obj.spanodes=[tnn, rnn, wnn];
-            obj.sn(1)=spanode(tnn,'trans');
-            obj.sn(2)=spanode(rnn,'rot');
-            obj.sn(3)=spanode(wnn,'warp');
+            n1=addnode(data,'trans');
+            n1.p=p;
+            n2=addnode(data,'rot');
+            n3=addnode(data,'warp');
+            obj.sn(1)=n1;
+            obj.sn(2)=n2;
+            obj.sn(3)=n3;
         end
     end
     methods
