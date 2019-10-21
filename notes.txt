@@ -1,0 +1,2 @@
+- calculate and save results when queried
+- delete results when input is changed
