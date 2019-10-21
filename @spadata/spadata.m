@@ -8,7 +8,8 @@ classdef spadata < handle %& matlab.mixin.Copyable
         filename='default'
     end
     properties (SetAccess=private)
-        nodes=node.empty
+        nodes=spanode.empty
+        kp=keypoint.empty
         elements=element.empty
         buildingblocks=buildingblock.empty
         smax                                % max stress results
