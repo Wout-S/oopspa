@@ -81,7 +81,7 @@ pr_DEF=sprintf('#DEF');
 pr_VIS=sprintf('VISUALIZATION \nINITIAL \nCOLOR		0.00	0.00	0.00');
 for i=1:numel(obj.elements)
     % print element definition
-    prnodes=sprintf('%3u \t',obj.elements(i).spanodes);
+    prnodes=sprintf('%3u \t',obj.elements(i).nodes.n);
     prorien=sprintf('%6f \t',obj.elements(i).orien);
     pr_E = sprintf('%s\n%s\t %3u \t %s %s #element %u',pr_E, obj.elements(i).etype,obj.elements(i).n,prnodes,prorien,obj.elements(i).n);
     % print estiff lines

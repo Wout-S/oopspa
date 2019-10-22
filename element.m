@@ -4,7 +4,7 @@ classdef element < handle
     
     properties
         nodes
-        spanodes
+        %         spanodes
         n
         EM
         ESTIFF
@@ -21,22 +21,31 @@ classdef element < handle
     end
     
     methods (Access = ?spadata)
-        function obj = element(nodes,n,eprops,sect,mat)
+        function obj = element(coords,n,eprops,sect,mat)
             %ELEMENT Construct an instance of this class
             %   Detailed explanation goes here
-            obj.nodes = nodes;
             obj.n = n;
             obj.etype=eprops.type;
             obj.orien=eprops.orien;
-            switch eprops.type
-                case 'BEAM'
-                    obj.spanodes=[nodes(1).spanodes(1:2) nodes(2).spanodes(1:2)];
-                case 'BEAMW'
-                    obj.spanodes=[nodes(1).spanodes(1:3) nodes(2).spanodes(1:3)];
-                case 'TRUSS'
-                    obj.spanodes=[nodes(1).spanodes(1) nodes(2).spanodes(1)];
-                case 'HINGE'
-                    obj.spanodes=[nodes(1).spanodes(2) nodes(2).spanodes(2)];
+            if isa(coords,'node')
+                obj.nodes=coords;
+            elseif isa(coords,'keypoint')
+                obj.nodes=[coords(1).sn,coords(2).sn];
+                switch eprops.type
+                    case 'BEAM'
+                        ni=[1 2 4 5];
+                        %obj.spanodes=[nodes(1).spanodes(1:2) nodes(2).spanodes(1:2)];
+                    case 'BEAMW'
+                        ni=[1 2 3 4 5 6];
+                        %obj.spanodes=[nodes(1).spanodes(1:3) nodes(2).spanodes(1:3)];
+                    case 'TRUSS'
+                        ni=[1 4];
+                        %obj.spanodes=[nodes(1).spanodes(1) nodes(2).spanodes(1)];
+                    case 'HINGE'
+                        ni=[2 4];
+                        % obj.spanodes=[nodes(1).spanodes(2) nodes(2).spanodes(2)];
+                end
+                obj.nodes=obj.nodes(ni); % save correct nodes
             end
             if isa(sect,'section') && isa(mat,'material')
                 obj.sect=sect;

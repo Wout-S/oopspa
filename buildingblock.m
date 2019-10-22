@@ -8,17 +8,17 @@ classdef buildingblock < handle
     end
     
     methods
-        function obj = buildingblock(data,nodes,type,eprops,sect,mat)
+        function obj = buildingblock(data,keypoints,type,eprops,sect,mat)
             %BUILDBLOCK Construct an instance of this class
             %   Detailed explanation goes here
             switch type
                 case 'strip'
-                    midpos=nodes(1).p+nodes(2).p/2;
-                    pmid=addnode(data,midpos)
-                    e1=addelem(data,[nodes(1),pmid],eprops,sect,mat);
-                    e2=addelem(data,[pmid,nodes(2)],eprops,sect,mat);
+                    midpos=keypoints(1).p+keypoints(2).p/2;
+                    kpmid=addkp(data,midpos);
+                    e1=addelem(data,[keypoints(1),kpmid],eprops,sect,mat);
+                    e2=addelem(data,[kpmid,keypoints(2)],eprops,sect,mat);
                     obj.elements=[e1 e2];
-                    obj.endnodes=nodes;
+                    obj.endnodes=keypoints;
             end
             
         end

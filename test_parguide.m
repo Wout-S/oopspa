@@ -15,7 +15,7 @@ p = [   0 0 0;      %node 1
     0.1 0 0];   %node 4
 % n1=data.addnode(p(1,:));
 
-n=data.addnode(p);
+n=data.addkp(p);
 
 % e1=data.addelem([n1, n2],'BEAMW',sec1,steel)
 flexelems=data.addelem([n(1), n(2);n(3) n(4)],beam,flex,steel);
