@@ -1,5 +1,6 @@
 clear
 clc
+addpath('C:\Users\schilderwp\Google Drive\spacar')
 data=spadata;
 p=[0 0 0;
    1 1 0;
