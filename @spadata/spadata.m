@@ -120,7 +120,7 @@ classdef spadata < handle %& matlab.mixin.Copyable
                 end
                 writedatfile(obj,mode)
                 %                 warning('off','all')
-                run(obj,0)
+                run(obj,0,true)
                 %                 warning('on','all')
                 autosolve(obj)
             end
