@@ -40,7 +40,7 @@ data.filename='testfile';
 %%
 % run in mode 10
 displ(n(3),[0.01 0 0])
-data.runmode(10,true)
+data.runmode(10,true,true)
 c3=n(3).CMglob(:,:,10)
 f1=data.freq;
 
@@ -48,7 +48,7 @@ data.filename='testfile_3';
 
 t=10
 
-data.runmode(3,false)
+data.runmode(3,false,true)
 c3_1=n(3).CMglob(:,:,t)
 c3_1a=n(3).CMglob_new(:,:,t)
 f_1=data.freq
@@ -56,7 +56,7 @@ f_1=data.freq
 
 % delete inputx, 
 displ(n(3),[])
-data.runmode(3,true)
+data.runmode(3,true,true)
 c3_2=n(3).CMglob(:,:,t)
 c3_2a=n(3).CMglob_new(:,:,t)
 f_2=data.freq

@@ -40,7 +40,7 @@ data.filename='testfile';
 %%
 % run in mode 10
 rot(kp(3),[0 0 0.5])
-data.runmode(10,true)
+data.runmode(10,true,true)
 c3=kp(3).CMglob(:,:,10)
 f1=data.freq;
 
