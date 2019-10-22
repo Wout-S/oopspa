@@ -3,15 +3,15 @@ classdef node < handle
     %   Detailed explanation goes here
     
     properties
-        fix
+        n
+        p
+        fixcoords
         inputx
         delinpx
         delxf
         xf
-        n
         type
         xm
-        p
     end
     
     methods
@@ -22,7 +22,29 @@ classdef node < handle
             obj.type=type;
         end
         
+        function fix(obj,varargin)
+            if nargin==1
+                switch obj.type
+                    case 'trans'
+                        obj.fixcoords=[1 2 3];
+                    case 'rot'
+                        obj.fixcoords=[2 3 4];
+                    case 'warp'
+                        obj.fixcoords=1;
+                end
+            else
+                switch obj.type
+                    case 'trans'
+                        obj.fixcoords=find([1 2 3].*varargin{1});
+                    case 'rot'
+                        obj.fixcoords=find([2 3 4].*varargin{1});
+                    case 'warp'
+                        obj.fixcoords=1;
+                end
+            end
+        end
+        
     end
-
+    
 end
 

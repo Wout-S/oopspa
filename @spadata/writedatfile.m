@@ -1,4 +1,4 @@
-function writedatfile(obj)
+function writedatfile(obj,mode)
 if ispc
     username = getenv('username');
 elseif ismac
@@ -29,8 +29,8 @@ for i=1:numel(obj.nodes)
     nn=obj.nodes(i).n; %spacar node number
     type=obj.nodes(i).type; % spacar node type
     % print nodal fixes
-    if ~isempty(obj.nodes(i).fix)
-        fixes= sprintf('%3u \t',obj.nodes(i).fix);
+    if ~isempty(obj.nodes(i).fixcoords)
+        fixes= sprintf('%3u \t',obj.nodes(i).fixcoords);
         pr_FIX=sprintf('%s\n FIX \t %3u %s',pr_FIX, nn,fixes);
     end
     % print input displacements
@@ -133,10 +133,16 @@ if ~isempty(obj.loadsteps)
 else
     steps = 9;
 end
-if      (id_ini && id_add);      pr_ADD = sprintf('%s\n\nITERSTEP\t10\t%3u\t0.0000005\t1\t3\t%3u',pr_ADD,steps,steps);    %if initial and aditional loading/displacement
-elseif  (id_ini && ~id_add);     pr_ADD = sprintf('%s\n\nITERSTEP\t10\t1\t0.0000005\t1\t1\t%3u',pr_ADD,steps);    %if initial loading/displacement
-elseif  (~id_ini && id_add);     pr_ADD = sprintf('%s\n\nITERSTEP\t10\t%3u\t0.0000005\t1\t3\t0',pr_ADD,steps);     %if initial loading/displacement
-else                       ;     pr_ADD = sprintf('%s\n\nITERSTEP\t10\t1\t0.0000005\t1\t1\t0',pr_ADD);    %no loading/displacement
+if mode==10 || mode==3
+    if      (id_ini && id_add);      pr_ADD = sprintf('%s\n\nITERSTEP\t10\t%3u\t0.0000005\t1\t3\t%3u',pr_ADD,steps,steps);    %if initial and aditional loading/displacement
+    elseif  (id_ini && ~id_add);     pr_ADD = sprintf('%s\n\nITERSTEP\t10\t1\t0.0000005\t1\t1\t%3u',pr_ADD,steps);    %if initial loading/displacement
+    elseif  (~id_ini && id_add);     pr_ADD = sprintf('%s\n\nITERSTEP\t10\t%3u\t0.0000005\t1\t3\t0',pr_ADD,steps);     %if initial loading/displacement
+    else                       ;     pr_ADD = sprintf('%s\n\nITERSTEP\t10\t1\t0.0000005\t1\t1\t0',pr_ADD);    %no loading/displacement
+    end
+else
+    iterstep=sprintf('%10f \t',obj.iterstep);
+    timestep=sprintf('%10f \t',obj.timestep);
+    pr_ADD=sprintf('%s \n ITERSTEP \t %s \n TIMESTEP \t %s',pr_ADD,iterstep,timestep);
 end
 
 fileID = fopen([obj.filename '.dat'],'w');

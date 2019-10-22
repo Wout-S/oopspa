@@ -17,6 +17,8 @@ classdef spadata < handle %& matlab.mixin.Copyable
         freq                                % eigenfrequency results
         perturbdata
         freq_p
+        iterstep
+        timestep
     end
     methods
         function obj=spadata() % constructor
@@ -29,18 +31,30 @@ classdef spadata < handle %& matlab.mixin.Copyable
             %             obj.raw.filename=obj.filename;
         end
         
-        writedatfile(obj)
+        writedatfile(obj,mode)
         autosolve(obj)
         [CMglob, CMloc]=complt(obj,node)
         
         function out = addnode(obj,type)
-            %METHOD1 create node
-                n=numel(obj.nodes); %get number of existing nodes
-                out = node(n+1,type);
-%                 out.type=type;
-%                 out.raw=obj.raw;
-%                 out.parent=obj;
-                obj.nodes(n+1)=out;
+            n=numel(obj.nodes); %get number of existing nodes
+            out = node(n+1,type);
+            obj.nodes(n+1)=out;
+        end
+        function out = addtnode(obj,p)
+            n=numel(obj.nodes); %get number of existing nodes
+            out = node(n+1,'trans');
+            out.p=p;
+            obj.nodes(n+1)=out;
+        end
+        function out = addrnode(obj)
+            n=numel(obj.nodes); %get number of existing nodes
+            out = node(n+1,'rot');
+            obj.nodes(n+1)=out;
+        end
+        function out = addwnode(obj)
+            n=numel(obj.nodes); %get number of existing nodes
+            out = node(n+1,'warp');
+            obj.nodes(n+1)=out;
         end
         
         function out = addelem(obj,nodes,eprops,sect,mat)
@@ -66,31 +80,52 @@ classdef spadata < handle %& matlab.mixin.Copyable
             obj.buildingblocks(n+1) = out;
         end
         
-        function run(obj,mode)
+        function run(obj,mode,silent)
             warning('off','all')
-            [~]=spacar(mode,obj.filename);
+            if silent
+                [~]=spacar(mode,obj.filename);
+            else
+                spacar(mode,obj.filename);
+            end
             warning('on','all')
             %             disp('spacar run succeeded')
         end
-        function runmode(obj,mode,as)
-            
+        function runmode(obj,mode,as,silent)
+            % run mode with default options
+            if isempty(obj.iterstep)
+                switch mode
+                    case 1
+                        obj.iterstep=[5 1000];
+                    case 3
+                        obj.iterstep=[];
+                    case 10
+                        obj.iterstep=[];
+                end
+            end
+            if isempty(obj.timestep)
+                switch mode
+                    case 1
+                        obj.timestep=[5 1000];
+                    case 3
+                        obj.timestep=[];
+                    case 10
+                        obj.timestep=[];
+                end
+            end
             if as % autosolve
                 %reset dyne
                 for i=1:numel(obj.elements)
                     obj.elements(i).dyne=obj.elements(i).flex;
                     obj.elements(i).rlse=[];
                 end
-                writedatfile(obj)
+                writedatfile(obj,mode)
                 %                 warning('off','all')
                 run(obj,0)
                 %                 warning('on','all')
                 autosolve(obj)
-                writedatfile(obj)
-                run(obj,mode);
-            else
-                writedatfile(obj)
-                run(obj,mode);
             end
+                writedatfile(obj,mode)
+                run(obj,mode,silent);
         end
         function perturb(obj)
             mode=3;

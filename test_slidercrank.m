@@ -9,6 +9,8 @@ kp=data.addkp(p);
 
 fix(kp(1));
 fix_t(kp(3),[0 1 1])
+mass(kp(1),0.1)
+mass(kp(2),0.1)
 mass(kp(3),0.1)
 
 steel=material(210e9,70e9,7600);
@@ -18,12 +20,21 @@ rbeam=eprops('BEAM',[],[0 0 1]);
 hinge=eprops('HINGE',[1],[0 0 1]);
 
 
-e1=data.addelem([kp(1),data.addnode([])],hinge,[],[]);
-e2=data.addelem([e1.nodes(2),kp(2)],beam,flex,steel);
-e3=data.addelem([kp(2),data.addnode([])],hinge,[],[]);
-e4=data.addelem([e3.nodes(2),kp(3)],rbeam,flex,steel);
+fix(kp(1))
+
+fix(kp(3).sn(1),[0 1 0])
+
+e1=data.addelem([kp(1).sn(2),data.addrnode],hinge,[],[]);
+e2=data.addelem([kp(1).sn(1),e1.nodes(2),kp(2).sn(1),kp(2).sn(2)],beam,flex,steel);
+e3=data.addelem([kp(2).sn(2),data.addrnode],hinge,[],[]);
+e4=data.addelem([kp(2).sn(1),e3.nodes(2),kp(3).sn(1),kp(3).sn(2)],rbeam,flex,steel);
 e1.esig=1;
 
+e1.dyne=[]
+e1.rlse=1
+
+
 data.filename='slidercrank'
-writedatfile(data)
-data.runmode(1,true)
+% writedatfile(data)
+data.runmode(1,false,false)
+spadraw(data.filename)

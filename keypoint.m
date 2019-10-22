@@ -48,21 +48,21 @@ classdef keypoint < handle %& matlab.mixin.Copyable
     end
     methods
         function fix(obj)
-            obj.sn(1).fix=[1 2 3];
-            obj.sn(2).fix=[2 3 4];
+            obj.sn(1).fix;
+            obj.sn(2).fix;
         end
         function fix_t(obj,varargin)
             if nargin==1
-                obj.sn(1).fix=[1 2 3];
+                obj.sn(1).fix;
             else
-              obj.sn(1).fix=find([1 2 3].*varargin{1});
+              fix(obj.sn(1),varargin{1});
             end
         end
         function fix_r(obj,varargin)
             if nargin==1
-                obj.sn(1).fix=[2 3 4];
+                obj.sn(1).fix;
             else
-              obj.sn(1).fix=find([2 3 4].*varargin{1});
+              fix(obj.sn(2),varargin{1});
             end
         end
         
