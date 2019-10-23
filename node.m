@@ -38,7 +38,7 @@ classdef node < handle
                     case 'trans'
                         obj.fixcoords=find([1 2 3].*varargin{1});
                     case 'rot'
-                        obj.fixcoords=find([2 3 4].*varargin{1});
+                        obj.fixcoords=nonzeros([2 3 4].*varargin{1})';
                     case 'warp'
                         obj.fixcoords=1;
                 end
