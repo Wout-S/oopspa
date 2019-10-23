@@ -109,7 +109,8 @@ classdef keypoint < handle %& matlab.mixin.Copyable
                 error('one rotation direction per node allowed')
             elseif nnz(r)==1
                 rot=eul2quat(fliplr(r)); %zyx order
-                obj.sn(2).inputx=[0 rot(2:4)];
+                [~,col,v]=find([0 rot(2:4)]);
+                obj.sn(2).c(col).inputx=v;
             elseif nnz(r)==0
                 obj.sn(2).inputx=[];
             end
@@ -120,7 +121,8 @@ classdef keypoint < handle %& matlab.mixin.Copyable
                 error('one rotation direction per node allowed')
             elseif nnz(r)==1
                 rot=eul2quat(fliplr(r)); %zyx order
-                obj.sn(2).delinpx=[0 rot(2:4)];
+                [~,col,v]=find([0 rot(2:4)]);
+                obj.sn(2).c(col).delinpx=v;
             elseif nnz(r)==0
                 obj.sn(2).delinpx=[];
             end
