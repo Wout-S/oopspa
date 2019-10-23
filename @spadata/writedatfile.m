@@ -36,7 +36,7 @@ for i=1:numel(obj.nodes)
     % print input displacements
     dval_init=obj.nodes(i).inputx; % get initial displacement values
     dval=obj.nodes(i).delinpx;% get displacement values
-    inputdirval=[find(dval_init),find(dval)];
+    inputdirval=[find(dval_init),find(dval)]; % coordinates for input
     if ~isempty(inputdirval)
         inputdirs=sprintf('%3u \t',unique(inputdirval)); % print unique values
         pr_INPUT=sprintf('%s \n INPUTX %3u %s',pr_INPUT,nn,inputdirs);
