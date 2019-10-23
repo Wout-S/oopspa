@@ -5,9 +5,10 @@ classdef node < handle
     properties
         n
         p
+        c = coordinate.empty
         fixcoords
-        inputx
-        delinpx
+%         inputx
+%         delinpx
         delxf
         xf
         type

@@ -84,12 +84,24 @@ classdef keypoint < handle %& matlab.mixin.Copyable
         end
         
         
-        function displ_initial(obj,d)
-            obj.sn(1).inputx=d;
+        function displ_x_initial(obj,d)
+            obj.sn(1).c(1).inputx=d;
+        end
+        function displ_y_initial(obj,d)
+            obj.sn(1).c(2).inputx=d;
+        end
+        function displ_z_initial(obj,d)
+            obj.sn(1).c(3).inputx=d;
         end
         
-        function displ(obj,d)
-            obj.sn(1).delinpx=d;
+        function displ_x(obj,d)
+            obj.sn(1).c(1).delinpx=d;
+        end
+        function displ_y(obj,d)
+            obj.sn(1).c(2).delinpx=d;
+        end
+        function displ_z(obj,d)
+            obj.sn(1).c(3).delinpx=d;
         end
         
         function rot_initial(obj,r)

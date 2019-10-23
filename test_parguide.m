@@ -39,7 +39,7 @@ data.filename='testfile';
 
 %%
 % run in mode 10
-displ(n(3),[0.01 0 0])
+displ_x(n(3),0.01)
 data.runmode(10,true,true)
 c3=n(3).CMglob(:,:,10)
 f1=data.freq;
@@ -55,7 +55,7 @@ f_1=data.freq
 % spavisual(data.filename)
 
 % delete inputx, 
-displ(n(3),[])
+displ_x(n(3),[])
 data.runmode(3,true,true)
 c3_2=n(3).CMglob(:,:,t)
 c3_2a=n(3).CMglob_new(:,:,t)

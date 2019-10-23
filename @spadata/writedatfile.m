@@ -34,25 +34,45 @@ for i=1:numel(obj.nodes)
         pr_FIX=sprintf('%s\n FIX \t %3u %s',pr_FIX, nn,fixes);
     end
     % print input displacements
-    dval_init=obj.nodes(i).inputx; % get initial displacement values
-    dval=obj.nodes(i).delinpx;% get displacement values
-    inputdirval=[find(dval_init),find(dval)]; % coordinates for input
-    if ~isempty(inputdirval)
-        inputdirs=sprintf('%3u \t',unique(inputdirval)); % print unique values
+    inputcoords=[];                         % vector of coordinates with input value in inputx or delinpx
+    for j=1:numel(obj.nodes(i).c) % loop over number of coordinates
+        d_init=obj.nodes(i).c(j).inputx;    % initial displacement vector
+        d     =obj.nodes(i).c(j).delinpx;   % additional dispclacement vector
+        if ~isempty(d_init)
+            id_ini=true;                    % initial displacement added
+            dstring=sprintf('%6f \t',d_init);
+            cn=j;                           % coordinate number
+            pr_INPUTVAL=sprintf('%s \n INPUTX %3u \t %3u \t %s \t #%s', pr_INPUTVAL,nn,cn, dstring,type);
+            inputcoords=[inputcoords cn];   % add coordinate number to vector of input coords
+        end
+        if ~isempty(d)
+            id_add=true;                    % additional displacement added
+            dstring=sprintf('%6f \t',d);
+            cn=j;                           % coordinate number
+            pr_DELINPUTVAL=sprintf('%s \n DELINPX %3u \t %3u \t %s \t #%s', pr_DELINPUTVAL,nn,cn, dstring,type);
+            inputcoords=[inputcoords cn];   % add coordinate number to vector of input coords
+        end
+    end
+    inputcoords=unique(inputcoords);
+%     dval_init=obj.nodes(i).inputx; % get initial displacement values
+%     dval=obj.nodes(i).delinpx;% get displacement values
+%     inputdirval=[find(dval_init),find(dval)]; % coordinates for input
+    if ~isempty(inputcoords)
+        inputdirs=sprintf('%3u \t',inputcoords); % print unique values
         pr_INPUT=sprintf('%s \n INPUTX %3u %s',pr_INPUT,nn,inputdirs);
     end
-    if ~isempty(dval_init)
-        id_ini=true;
-        for k=find(dval_init)
-            pr_INPUTVAL=sprintf('%s \n INPUTX %3u \t %3u \t %6f \t #%s', pr_INPUTVAL,nn,k, obj.nodes(i).inputx(k),type);
-        end
-    end
-    if ~isempty(dval)
-        id_add=true;
-        for k=find(dval)
-            pr_DELINPUTVAL=sprintf('%s \n DELINPX %3u \t %3u \t %6f \t #%s', pr_DELINPUTVAL,nn,k, obj.nodes(i).delinpx(k),type);
-        end
-    end
+%     if ~isempty(dval_init)
+%         id_ini=true;
+%         for k=find(dval_init)
+%             pr_INPUTVAL=sprintf('%s \n INPUTX %3u \t %3u \t %6f \t #%s', pr_INPUTVAL,nn,k, obj.nodes(i).inputx(k),type);
+%         end
+%     end
+%     if ~isempty(dval)
+%         id_add=true;
+%         for k=find(dval)
+%             pr_DELINPUTVAL=sprintf('%s \n DELINPX %3u \t %3u \t %6f \t #%s', pr_DELINPUTVAL,nn,k, obj.nodes(i).delinpx(k),type);
+%         end
+%     end
     % print input forces and moments
     
     if ~isempty(obj.nodes(i).xf)
