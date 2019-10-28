@@ -60,7 +60,7 @@ classdef keypoint < handle %& matlab.mixin.Copyable
         end
         function fix_r(obj,varargin)
             if nargin==1
-                obj.sn(1).fix;
+                obj.sn(2).fix;
             else
               fix(obj.sn(2),varargin{1});
             end

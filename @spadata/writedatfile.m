@@ -153,7 +153,7 @@ if ~isempty(obj.loadsteps)
 else
     steps = 9;
 end
-if mode==10 || mode==3
+if (mode==10 || mode==3) && isempty(obj.iterstep)
     if      (id_ini && id_add);      pr_ADD = sprintf('%s\n\nITERSTEP\t10\t%3u\t0.0000005\t1\t3\t%3u',pr_ADD,steps,steps);    %if initial and aditional loading/displacement
     elseif  (id_ini && ~id_add);     pr_ADD = sprintf('%s\n\nITERSTEP\t10\t1\t0.0000005\t1\t1\t%3u',pr_ADD,steps);    %if initial loading/displacement
     elseif  (~id_ini && id_add);     pr_ADD = sprintf('%s\n\nITERSTEP\t10\t%3u\t0.0000005\t1\t3\t0',pr_ADD,steps);     %if initial loading/displacement

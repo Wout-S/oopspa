@@ -9,8 +9,9 @@ p=[0 0 0;
 kp=data.addkp(p);
 
 fix_t(kp(1));
-fix_r(kp(1),[ 1 1 0])
+fix_r(kp(1))
 fix_t(kp(3),[0 1 1])
+
 mass(kp(1),0.1)
 mass(kp(2),0.1)
 mass(kp(3),0.1)
@@ -27,12 +28,12 @@ e2=data.addelem([kp(1).sn(1),e1.nodes(2),kp(2).sn(1),kp(2).sn(2)],beam,flex,stee
 e3=data.addelem([kp(2).sn(2),data.addrnode],hinge,[],[]);
 e4=data.addelem([kp(2).sn(1),e3.nodes(2),kp(3).sn(1),kp(3).sn(2)],rbeam,flex,steel);
 % e1.esig=1;
-e1.nodes(1).c(4).delinpx=[1 0.5];
-% e1.dyne=[]
+e1.nodes(2).c(4).delinpx=[0.1];
+% e1.dyne=[1]
 % e1.rlse=1
 
 
 data.filename='slidercrank'
 % writedatfile(data)
-data.runmode(1,true,false)
+data.runmode(10,true,false)
 spadraw(data.filename)

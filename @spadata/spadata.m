@@ -95,7 +95,7 @@ classdef spadata < handle %& matlab.mixin.Copyable
             if isempty(obj.iterstep)
                 switch mode
                     case 1
-                        obj.iterstep=[5 1000];
+                        obj.iterstep=[10 2];
                     case 3
                         obj.iterstep=[];
                     case 10
