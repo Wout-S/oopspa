@@ -7,8 +7,6 @@ classdef node < handle
         p
         c = coordinate.empty
         fixcoords
-%         inputx
-%         delinpx
         delxf
         xf
         type
@@ -18,7 +16,6 @@ classdef node < handle
     methods
         function obj = node(n,type)
             %SPANODE Construct an instance of this class
-            %   Detailed explanation goes here
             obj.n=n;
             obj.type=type;
         end
