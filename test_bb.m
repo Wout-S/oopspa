@@ -31,12 +31,12 @@ bb1p.dim=[alpha, lambda]
 bb1=data.addbb(kp(1:2),'cfh',bb1p)
 e1=data.addelem(kp(2:3),rbeam,rigid,rmat)
 bb1=data.addbb(kp(3:4),'cfh',bb1p)
-e1=data.addelem(kp(4:5),rbeam,rigid,rmat)
-bb1=data.addbb(kp(5:6),'cfh',bb1p)
+% e1=data.addelem(kp(4:5),rbeam,rigid,rmat)
+% bb1=data.addbb(kp(5:6),'cfh',bb1p)
 
 fix(kp(1))
 
-moment(kp(6),[0 0 0.05])
+rot(kp(4),[0 0 1])
 
 runmode(data,10,true,true)
 spavisual(data.filename)

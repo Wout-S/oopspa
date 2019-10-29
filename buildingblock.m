@@ -5,7 +5,7 @@ classdef buildingblock < handle
     properties
         elements
         endnodes
-        keypoints
+        kp
     end
     
     methods
@@ -29,7 +29,7 @@ classdef buildingblock < handle
                     h=norm((p(1,:)-p(2,:)));
                     hdir=(p(1,:)-p(2,:))/h;
                     L=h/cos(alpha);
-                    wdir=cross(hdir,epf.orien);
+                    wdir=cross(epf.orien,hdir);
                     w1=lambda*L*sin(alpha);
                     w2=(1-lambda)*L*sin(alpha);
                     np=[p(1,:)-w1*wdir;
@@ -42,7 +42,7 @@ classdef buildingblock < handle
                           4 6];
                     eflex=data.addelem(kps(flex),epf,bprops.fsect,bprops.fmat);
                     erigid=data.addelem(kps(rigid),epr,bprops.rsect,bprops.rmat);
-                    obj.keypoints=kps;
+                    obj.kp=kps;
                     obj.elements=[eflex,erigid];
             end
         end
