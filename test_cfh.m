@@ -72,7 +72,7 @@ c3a=kp(3).CMglob_p(:,:,t)
 
 
 % spavisual(mode10data.filename)
-% spavisual(mode3data.filename)
+spavisual(data.filename)
 
 
 

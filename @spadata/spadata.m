@@ -74,9 +74,9 @@ classdef spadata < handle %& matlab.mixin.Copyable
                 obj.keypoints(n+1)=out(i);
             end
         end
-        function out = addbb(obj,nodes,bbtype,eprops,sect,mat)
+        function out = addbb(obj,nodes,bbtype,eprops)
             n=numel(obj.buildingblocks); % get number of existing elements
-            out = buildingblock(obj,nodes,bbtype,eprops,sect,mat);
+            out = buildingblock(obj,nodes,bbtype,eprops);
             obj.buildingblocks(n+1) = out;
         end
         

@@ -33,7 +33,7 @@ e1.nodes(2).c(4).delinpx=[0.1];
 % e1.rlse=1
 
 
-data.filename='slidercrank'
-% writedatfile(data)
-data.runmode(10,true,false)
-spadraw(data.filename)
+data.filename='slidercrank';
+data.runmode(10,true,true)
+% spadraw(data.filename)
+spavisual(data.filename)
