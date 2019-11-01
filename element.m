@@ -18,6 +18,7 @@ classdef element < handle
         opacity
         orien
         esig
+        hide
     end
     
     methods (Access = ?spadata)

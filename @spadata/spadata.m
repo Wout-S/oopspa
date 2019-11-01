@@ -4,7 +4,7 @@ classdef spadata < handle %& matlab.mixin.Copyable
     
     properties
         gravity
-        loadsteps
+        loadsteps=10
         filename='default'
     end
     properties (SetAccess=private)
@@ -75,9 +75,11 @@ classdef spadata < handle %& matlab.mixin.Copyable
             end
         end
         function out = addbb(obj,nodes,bbtype,eprops)
-            n=numel(obj.buildingblocks); % get number of existing elements
-            out = buildingblock(obj,nodes,bbtype,eprops);
-            obj.buildingblocks(n+1) = out;
+            for i=1:size(nodes,1)
+                n=numel(obj.buildingblocks); % get number of existing elements
+                out(i) = buildingblock(obj,nodes(i,:),bbtype,eprops);
+                obj.buildingblocks(n+1) = out(i);
+            end
         end
         
         function run(obj,mode,silent)

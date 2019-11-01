@@ -54,27 +54,14 @@ for i=1:numel(obj.nodes)
         end
     end
     inputcoords=unique(inputcoords);
-%     dval_init=obj.nodes(i).inputx; % get initial displacement values
-%     dval=obj.nodes(i).delinpx;% get displacement values
-%     inputdirval=[find(dval_init),find(dval)]; % coordinates for input
+    %     dval_init=obj.nodes(i).inputx; % get initial displacement values
+    %     dval=obj.nodes(i).delinpx;% get displacement values
+    %     inputdirval=[find(dval_init),find(dval)]; % coordinates for input
     if ~isempty(inputcoords)
         inputdirs=sprintf('%3u \t',inputcoords); % print unique values
         pr_INPUT=sprintf('%s \n INPUTX %3u %s',pr_INPUT,nn,inputdirs);
     end
-%     if ~isempty(dval_init)
-%         id_ini=true;
-%         for k=find(dval_init)
-%             pr_INPUTVAL=sprintf('%s \n INPUTX %3u \t %3u \t %6f \t #%s', pr_INPUTVAL,nn,k, obj.nodes(i).inputx(k),type);
-%         end
-%     end
-%     if ~isempty(dval)
-%         id_add=true;
-%         for k=find(dval)
-%             pr_DELINPUTVAL=sprintf('%s \n DELINPX %3u \t %3u \t %6f \t #%s', pr_DELINPUTVAL,nn,k, obj.nodes(i).delinpx(k),type);
-%         end
-%     end
     % print input forces and moments
-    
     if ~isempty(obj.nodes(i).xf)
         fm_init=sprintf('%6f \t',obj.nodes(i).xf); % get initial force/moment values
         id_ini=true;
@@ -99,6 +86,7 @@ pr_EM=sprintf('# mass properties');
 pr_ESIG=' ';
 pr_DEF=sprintf('#DEF');
 pr_VIS=sprintf('VISUALIZATION \nINITIAL \nCOLOR		0.00	0.00	0.00');
+pr_DND=sprintf('');
 for i=1:numel(obj.elements)
     % print element definition
     prnodes=sprintf('%3u \t',obj.elements(i).nodes.n);
@@ -138,6 +126,9 @@ for i=1:numel(obj.elements)
         pr_VIS=sprintf('%s \n FACECOLOR \t %s',pr_VIS,color);
         pr_VIS=sprintf('%s \n OPACITY \t %.2f',pr_VIS,obj.elements(i).opacity);
     end
+    if obj.elements(i).hide
+        pr_DND=sprintf('%s \t %3u',pr_DND,obj.elements(i).n);
+    end
     
 end
 % print additional data
@@ -175,7 +166,6 @@ fprintf(fileID,formatSpec,pr_FIX); % print nodal fixes
 fprintf(fileID,formatSpec,pr_INPUT);% print input displacement directions
 
 
-
 fprintf(fileID,'\n END \n HALT \n \n');
 fprintf(fileID,formatSpec,pr_ESTIFF);   % print stiffness data
 fprintf(fileID,formatSpec,pr_EM);       % print mass data
@@ -189,6 +179,9 @@ fprintf(fileID,formatSpec,pr_ADD);% print additional properties like iterstep/gr
 fprintf(fileID,' \n END \n END \n \n');
 
 fprintf(fileID,formatSpec,pr_VIS);%print visualization data
+if ~isempty(pr_DND)
+    fprintf(fileID,'DONOTDRAW \t %s',pr_DND);%print visualization data
+end
 
 fclose(fileID); %datfile finished!
 end
