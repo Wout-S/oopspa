@@ -14,7 +14,11 @@ classdef buildingblock < handle
             %   Detailed explanation goes here
             obj.endnodes=kp;
             epf=eprops('BEAM',1:6,bprops.orien); % flexible eprops
-            epr=eprops('BEAM',[],bprops.orien);     % rigid eprops
+            if bprops.rigid
+                epr=eprops('BEAM',[],bprops.orien);     % rigid eprops
+            else
+                epr=epf;
+            end
             switch type
                 case 'strip'
                     midpos=kp(1).p+kp(2).p/2;

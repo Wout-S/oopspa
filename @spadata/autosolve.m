@@ -35,7 +35,6 @@ function autosolve(obj)
                 return
             elseif nover>0 %overconstrained
                 % attempt autosolve
-                disp('overconstrained')
                 
                 %create empty rlse matrix used internally for autosolver
                 %                 rlse = zeros(size(E_list,1),6);

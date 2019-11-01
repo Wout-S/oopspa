@@ -133,7 +133,9 @@ classdef spadata < handle %& matlab.mixin.Copyable
             mode=3;
             newfn=[obj.filename '_3'];
             copyfile([obj.filename '.dat'],[newfn '.dat'])
+            warning('off','all')
             [~]=spacar(mode,newfn);
+            warning('on','all')
             p.filename=newfn;
             obj.perturbdata=rawdata(p);
             
@@ -150,7 +152,7 @@ classdef spadata < handle %& matlab.mixin.Copyable
             end
             sm=zeros(1,obj.loadsteps);
             opt_stress.exterior = true; %only calculate exterior stresses (not possible for circ cross-section)
-            for i=obj.raw.t_list
+            for i=1:obj.raw.tdef
                 [~,~,~,stressextrema] = stressbeam([obj.filename,'.sbd'],Sig_nums,i,opt_stress,propcrossect);
                 
                 sm(i)= stressextrema.max*1e6; %per loadstep

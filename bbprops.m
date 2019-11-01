@@ -10,6 +10,7 @@ classdef bbprops
         rsect
         dim
         orien
+        rigid=true
     end
     
     methods
