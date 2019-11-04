@@ -71,10 +71,10 @@ classdef spadata < handle
                 obj.keypoints(n+1)=out(i);
             end
         end
-        function out = addbb(obj,nodes,bbtype,eprops)
+        function out = addbb(obj,nodes,bbtype,bbprops)
             for i=1:size(nodes,1)
                 n=numel(obj.buildingblocks); % get number of existing elements
-                out(i) = buildingblock(obj,nodes(i,:),bbtype,eprops);
+                out(i) = buildingblock(obj,nodes(i,:),bbtype,bbprops);
                 obj.buildingblocks(n+1) = out(i);
             end
         end

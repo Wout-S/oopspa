@@ -4,13 +4,11 @@ classdef bbprops
     
     properties
         type
-        fmat
-        rmat
-        fsect
-        rsect
+        mat
+        sect
+        eprops
         dim
         orien
-        rigid=true
     end
     
     methods
