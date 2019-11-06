@@ -98,10 +98,10 @@ classdef buildingblock < handle
                     dl1=L/nel;
                     larray=0:dl1:L;
                     x=larray(1:end-1)+dl1/2;
-                    w1=bprops.sect(1).dim(1)
-                    w2=bprops.sect(2).dim(1)
-                    t1=bprops.sect(1).dim(2)
-                    t2=bprops.sect(2).dim(2)
+                    w1=bprops.sect(1).dim(1);
+                    w2=bprops.sect(2).dim(1);
+                    t1=bprops.sect(1).dim(2);
+                    t2=bprops.sect(2).dim(2);
                     W=(w2-w1)/L.*x+w1;
                     t=(t2-t1)/L.*x+t1;
                     
