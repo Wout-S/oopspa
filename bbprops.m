@@ -9,6 +9,8 @@ classdef bbprops
         eprops
         dim
         orien
+        p
+        conn
     end
     
     methods
