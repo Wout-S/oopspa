@@ -3,14 +3,16 @@ classdef bbprops
     %   Detailed explanation goes here
     
     properties
-        type
-        mat
-        sect
-        eprops
-        dim
-        orien
-        p
-        conn
+        type            % builing block layout type
+        mat             % materials 1xn array
+        sect            % sections 1xn array
+        eprops          % element properties 1xn array
+        dim             % dimenstions
+        orien           % global y-direction (width direction)
+        
+        % custom building block properties:
+        p               % internal node position function @(dim,L)
+        conn            % 1xn connection matrix cell array
     end
     
     methods

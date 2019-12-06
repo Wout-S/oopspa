@@ -23,9 +23,9 @@ bb1p.sect=[flex rigid];
 bb1p.eprops=[beam rbeam];
 bb1p.type='reinf';
 bb1p.dim=0.7;
-bbep.orien=[0 0 1];
+bb1p.orien=[0 0 1];
 % e1=data.addelem([n1, n2],'BEAMW',sec1,steel)
-flexelems=data.addbb([n(1), n(2);n(3) n(4)],'reinf',bb1p);
+flexelems=data.addbb([n(1), n(2);n(3) n(4)],bb1p);
 e2=data.addelem([n(2), n(3)],rbeam,rigid,mat2);
 % e3=data.addelem([n(2), n(4)],beam,flex,steel);
 
@@ -51,11 +51,7 @@ data.runmode(10,true,true)
 c3=n(3).CMglob(:,:,10)
 f1=data.freq;
 
-data.filename='testfile_3';
 
-t=10
-
-% perturb(data)
 spavisual(data.filename)
 
 
