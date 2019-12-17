@@ -1,4 +1,4 @@
-classdef eprops %< handle
+classdef eprops < handle
     %EPROPS Summary of this class goes here
     %   Detailed explanation goes here
     
