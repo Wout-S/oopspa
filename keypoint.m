@@ -48,92 +48,134 @@ classdef keypoint < handle %& matlab.mixin.Copyable
     end
     methods
         function fix(obj)
-            obj.sn(1).fix;
-            obj.sn(2).fix;
+            for i=1:numel(obj)
+                obj(i).sn(1).fix;
+                obj(i).sn(2).fix;
+            end
         end
         function fix_t(obj,varargin)
-            if nargin==1
-                obj.sn(1).fix;
-            else
-              fix(obj.sn(1),varargin{1});
+            for i=1:numel(obj)
+                if nargin==1
+                    obj(i).sn(1).fix;
+                else
+                    fix(obj(i).sn(1),varargin{1});
+                end
             end
         end
         function fix_r(obj,varargin)
-            if nargin==1
-                obj.sn(2).fix;
-            else
-              fix(obj.sn(2),varargin{1});
+            for i=1:numel(obj)
+                if nargin==1
+                    obj(i).sn(2).fix;
+                else
+                    fix(obj(i).sn(2),varargin{1});
+                end
+            end
+        end
+        function fix_w(obj,varargin)
+            for i=1:numel(obj)
+                if nargin==1
+                    obj(i).sn(3).fix;
+                else
+                    fix(obj(i).sn(3),varargin{1});
+                end
             end
         end
         
         function force_initial(obj,f)
-            obj.sn(1).xf=f;
-            
+            for i=1:numel(obj)
+                obj(i).sn(1).xf=f;
+            end
         end
         
         function force(obj,f)
-            obj.sn(1).delxf=f;
+            for i=1:numel(obj)
+                obj(i).sn(1).delxf=f;
+            end
         end
         
         function moment_initial(obj,m)
-            obj.sn(2).xf=m;
+            for i=1:numel(obj)
+                obj(i).sn(2).xf=m;
+            end
         end
         
         function moment(obj,m)
-            obj.sn(2).delxf=m;
+            for i=1:numel(obj)
+                obj(i).sn(2).delxf=m;
+            end
         end
         
         
         function displ_x_initial(obj,d)
-            obj.sn(1).c(1).inputx=d;
+            for i=1:numel(obj)
+                obj(i).sn(1).c(1).inputx=d;
+            end
         end
         function displ_y_initial(obj,d)
-            obj.sn(1).c(2).inputx=d;
+            for i=1:numel(obj)
+                obj(i).sn(1).c(2).inputx=d;
+            end
         end
         function displ_z_initial(obj,d)
-            obj.sn(1).c(3).inputx=d;
+            for i=1:numel(obj)
+                obj(i).sn(1).c(3).inputx=d;
+            end
         end
         
         function displ_x(obj,d)
-            obj.sn(1).c(1).delinpx=d;
+            for i=1:numel(obj)
+                obj(i).sn(1).c(1).delinpx=d;
+            end
         end
         function displ_y(obj,d)
-            obj.sn(1).c(2).delinpx=d;
+            for i=1:numel(obj)
+                obj(i).sn(1).c(2).delinpx=d;
+            end
         end
         function displ_z(obj,d)
-            obj.sn(1).c(3).delinpx=d;
+            for i=1:numel(obj)
+                obj(i).sn(1).c(3).delinpx=d;
+            end
         end
         
         function rot_initial(obj,r)
-            if nnz(r) >1
-                error('one rotation direction per node allowed')
-            elseif nnz(r)==1
-                rot=eul2quat(fliplr(r)); %zyx order
-                [~,col,v]=find([0 rot(2:4)]);
-                obj.sn(2).c(col).inputx=v;
-            elseif nnz(r)==0
-                obj.sn(2).inputx=[];
+            for i=1:numel(obj)
+                if nnz(r) >1
+                    error('one rotation direction per node allowed')
+                elseif nnz(r)==1
+                    rot=eul2quat(fliplr(r)); %zyx order
+                    [~,col,v]=find([0 rot(2:4)]);
+                    obj(i).sn(2).c(col).inputx=v;
+                elseif nnz(r)==0
+                    obj(i).sn(2).inputx=[];
+                end
             end
         end
         
         function rot(obj,r)
-            if nnz(r) >1
-                error('one rotation direction per node allowed')
-            elseif nnz(r)==1
-                rot=eul2quat(fliplr(r)); %zyx order
-                [~,col,v]=find([0 rot(2:4)]);
-                obj.sn(2).c(col).delinpx=v;
-            elseif nnz(r)==0
-                obj.sn(2).delinpx=[];
+            for i=1:numel(obj)
+                if nnz(r) >1
+                    error('one rotation direction per node allowed')
+                elseif nnz(r)==1
+                    rot=eul2quat(fliplr(r)); %zyx order
+                    [~,col,v]=find([0 rot(2:4)]);
+                    obj(i).sn(2).c(col).delinpx=v;
+                elseif nnz(r)==0
+                    obj(i).sn(2).delinpx=[];
+                end
             end
         end
         
         function mass(obj,m)
-            obj.sn(1).xm=m;
+            for i=1:numel(obj)
+                obj(i).sn(1).xm=m;
+            end
         end
         
         function mominertia(obj,I)
-            obj.sn(2).xm=I;
+            for i=1:numel(obj)
+                obj(i).sn(2).xm=I;
+            end
         end
         %% result methods
         function out=get.CMglob(obj)
@@ -350,7 +392,7 @@ if mode==3
     locv=[lnp(ntr,1:3), lnp(nrot,1:4)];
     locdof=[1:nxp(3)+nxp(4)+nep(3)+nep(4)];
     nddof=raw.ndof;
-        X_data      =raw.x ;
+    X_data      =raw.x ;
 else
     DX_data     =raw.dx;
     K0_data     = raw.k0;

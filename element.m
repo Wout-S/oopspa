@@ -6,6 +6,7 @@ classdef element < handle
         nodes
         %         spanodes
         n
+        kp
         EM
         ESTIFF
         etype
@@ -32,6 +33,7 @@ classdef element < handle
                 obj.nodes=coords;
             elseif isa(coords,'keypoint')
                 obj.nodes=[coords(1).sn,coords(2).sn];
+                obj.kp=coords;
                 switch eprops.type
                     case 'BEAM'
                         ni=[1 2 4 5];
