@@ -147,7 +147,8 @@ classdef keypoint < handle %& matlab.mixin.Copyable
                     [~,col,v]=find([0 rot(2:4)]);
                     obj(i).sn(2).c(col).inputx=v;
                 elseif nnz(r)==0
-                    obj(i).sn(2).inputx=[];
+                    v={[],[],[]};
+                    [obj(i).sn(2).c.inputx]=v{:};
                 end
             end
         end
@@ -161,7 +162,8 @@ classdef keypoint < handle %& matlab.mixin.Copyable
                     [~,col,v]=find([0 rot(2:4)]);
                     obj(i).sn(2).c(col).delinpx=v;
                 elseif nnz(r)==0
-                    obj(i).sn(2).delinpx=[];
+                    v={[],[],[]};
+                    [obj(i).sn(2).c.delinpx]=v{:};
                 end
             end
         end
